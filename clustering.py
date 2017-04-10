@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
 
+from sklearn.metrics import  silhouette_samples, silhouette_score
+
 import matplotlib.pyplot as plt
 plt.rcParams['figure.figsize'] = (12, 6)
 
@@ -18,9 +20,9 @@ f1 = df['Distance_Feature'].values
 f2 = df['Speeding_Feature'].values
 
 X = np.matrix(list(zip(f1,f2))) # http://stackoverflow.com/questions/40282290/float-argument-must-be-a-string-or-a-number-not-zip
-kmeans = KMeans(n_clusters=4).fit(X)
+kmeans = KMeans(n_clusters=2).fit(X)
 
-# # elbow point method to define K
+# # elbow point method to define K http://stackoverflow.com/questions/41540751/sklearn-kmeans-equivalent-of-elbow-method
 # K = range(1, 10)
 # km = [KMeans(n_clusters=i) for i in K]
 # score = [km[i].fit(X).score(X) for i in range(len(km))]
@@ -29,6 +31,22 @@ kmeans = KMeans(n_clusters=4).fit(X)
 # plt.plot(K, score)
 # plt.show()
 
+# # silhouette_score
+# # http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html
+# K = range(1, 10)
+# km = [KMeans(n_clusters=i) for i in K]
+# cluster_labels = [km[i].fit_predict(X) for i in range(len(km))]
+# scores = []
+# for i in range(1, len(km)):
+#     score = silhouette_score(X, cluster_labels[i])
+#     print("For n_clusters =", i, "The average silhouette_score is :", score)
+#     scores.append(score)
+#
+# plt.figure()
+# plt.plot(range(1, len(km)), scores)
+# plt.show()
+
+#https://github.com/datascienceinc/learn-data-science/blob/master/Introduction-to-K-means-Clustering/Notebooks/Introduction-to-K-means-Clustering-Example.ipynb
 # # Plot the results 2
 # plt.figure()
 # h1,=plt.plot(f1[kmeans.labels_==0],f2[kmeans.labels_==0],'go')
